@@ -1,5 +1,6 @@
 import sys
 from PyQt5 import QtWidgets, QtCore, QtGui, QtWebEngineWidgets
+from PyQt5.QtGui import QPalette, QColor
 
 
 class ChessAnalyzer(QtWidgets.QWidget):
@@ -9,6 +10,21 @@ class ChessAnalyzer(QtWidgets.QWidget):
         self.label = QtWidgets.QLabel("Paste your chess board element:")
         self.textbox = QtWidgets.QTextEdit(self)
         self.button = QtWidgets.QPushButton("Analyze", self)
+        self.button.setStyleSheet("QPushButton {"
+                           "background-color: rgb(79, 84, 92);"
+                           "border-radius: 4px;"
+                           "padding: 8px;"
+                           "color: rgb(255, 255, 255);"
+                           "font-size: 14px;"
+                           "font-weight: bold;"
+                           "}"
+                           "QPushButton:hover {"
+                           "background-color: rgb(97, 102, 110);"
+                           "}"
+                           "QPushButton:pressed {"
+                           "background-color: rgb(48, 51, 56);"
+                           "}")
+        self.label.setStyleSheet("color: #D1D5DB;")
         self.button.clicked.connect(self.get_fen)
         self.webview = QtWebEngineWidgets.QWebEngineView()
         self.webview.load(QtCore.QUrl("about:blank"))
@@ -25,6 +41,15 @@ class ChessAnalyzer(QtWidgets.QWidget):
 
         # Set window to be topmost
         self.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
+
+        palette = QPalette()
+        palette.setColor(QPalette.Window, QColor(54, 57, 63))  # Set the background color
+        palette.setColor(QPalette.Button, QColor(79, 84, 92))  # Set the button color
+        palette.setColor(QPalette.ButtonText, QColor(255, 255, 255))  # Set the button text color
+        palette.setColor(QPalette.Base, QColor(35, 39, 42))  # Set the text box background color
+        palette.setColor(QPalette.Text, QColor(255, 255, 255))  # Set the text color
+        self.setPalette(palette)
+
 
     def on_error(self, error):
         QtWidgets.QMessageBox.critical(self, "Error", error)
