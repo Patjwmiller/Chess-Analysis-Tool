@@ -49,6 +49,17 @@ class ChessAnalyzer(QtWidgets.QWidget):
         palette.setColor(QPalette.Base, QColor(35, 39, 42))  # Set the text box background color
         palette.setColor(QPalette.Text, QColor(255, 255, 255))  # Set the text color
         self.setPalette(palette)
+        self.setWindowOpacity(0.75)
+        self.webview.loadFinished.connect(self.on_load_finished)  # connect the loadFinished signal to the on_load_finished slot
+
+    def on_load_finished(self):
+        checkbox_script = """
+        var checkbox = document.getElementById("analyse-toggle-ceval");
+        if (checkbox !== null) {
+            checkbox.checked = true;
+        }
+        """
+        self.webview.page().runJavaScript(checkbox_script)  # execute the JavaScript code to check the checkbox element
 
 
     def on_error(self, error):
